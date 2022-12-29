@@ -48,6 +48,7 @@ HC-SR04 is an Ultrasonic Sonar Distance Sensors that can report the range of obj
 ![](https://github.com/ESE5190-Team-Guardian/ese5190-team-guardian.github.io/blob/1f06af2fbde75373179fd0578b31efba0b8bf615/Media/HCSR04CONNECT.jpg)  
 
 # Result
+***Final-Demo:*** https://www.youtube.com/watch?v=-6hfpppa8-0  
 
 In the end, we accomplished all the core goals of this project. We used the accelerometer to measure the acceleration of the user’s upper back on the three different axes. Then, we used these input values to calculate the titled angles of the user’s upper back on the three axes. We also used the ultrasonic distance sensor to measure the distance between the user and the computer in front. Combining them, we can judge whether the user’s sitting posture is correct. To enhance user interaction, we use the LCD screen to display reasonable results confronting different sitting postures. If the user is too close to the computer screen, ***the LCD screen will display “You are too close to the screen!”***. If the user has the hunchback posture, ***the LCD screen will display “Please correct your sitting posture!”***. And if the above two situations occur at the same time, ***the LCD screen will display “Away from the screen, Sit up straight”***. We placed all the devices on one posture correction vest. This wearable device can be convenient for the user to check their sitting posture while working. 
 
