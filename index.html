@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Page setup -->
+    <meta charset="utf-8">
+    <title>Team Guardian - Posture Helper</title>
+    <meta name="description" content="A brief description of your site for search engines">
+    <meta name="author" content="Information about the author here">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="icon" type="image/png" href="favicon.png">
+  
+    <!-- Stylesheets -->
+    <!-- Reset default styles and add support for google fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+   
+    <!-- Custom styles -->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>    
+
+    <!-- Want to add Bootstrap? -->
+    <!-- Visit: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+    
+  </head>
+  
+  <body>
+
+    <header id="header">
+      <img src="logo.jpg">
+      <h1>Team Guardian - Posture Helper</h1>
+      
+      <!-- Menu link fragment #id should match a div id. Example: <a href="#home"> links to <div id="home"></div>  -->
+      <ul class="main-menu">
+        <li><a href="#home">home</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>                 
+    </header>
+   
+    <div id="container">
+      <div class="inner">
+        <div id="content"> 
+          
+          <div id="home" class="content-region hide">
+            <h2>Team Member</h2>
+            <p>
+              <a href="https://github.com/AngLi-00">Ang Li</a>   <br>
+              <a href="https://github.com/SEN316">Sen Luo</a>   <br>
+              <a href="https://github.com/IndigoQuadratic">Xuanang Chen</a>   <br>
+            </p>
+            <h2>"Posture Helper" Intro</h2>
+            <img src="Posture Helper.JPG" width="672" height="504">
+            <p>
+              As Upenn students, we need to sit in front of the computer every day to complete our assignments. The improper sitting posture and the sedentary lifestyle will affect our health. Therefore, we are going to design a system to remind us to correct our sitting posture and take a break after working for a long time.
+            </p>
+            <h2>Goals</h2>
+            <p>
+              This Microcontroller will serve as:  <br>
+              - Real-time Posture Detector:Help to correct your sitting posture in time;<br>
+              - Eye-to-screen Distance Monitor: Remind you in time when your eyes are too close to the computer;<br>
+              - Work-relax Balance Reminder: Remind you to stand up and take a break when sitting for too long;<br>
+              - We also involve in the Pomodoro Technique as a function to help you work efficiently.
+            </p>
+            <h2>Philosophy</h2>
+            <p>
+              Consider the functionality of the embedded system, we need:  <br>
+              - Readability：The user interface must provides explicit information that lead the users to make proper reaction.<br>
+              - Timeliness：The information must be provided timely and accurately.  
+            </p>
+            <p>
+              While regarding of the design concepts, we suppose it to have:<br>
+              - User-friendliness: it is absolutely essential that even the most minimally tech-savvy user feel capable and comfortable setting up and using the posture helper. Therefore the system must provide plenty of intuitive feedback, and must convey the experience of plug-and-play simplicity.
+            </p>
+            <h2>Architecture</h2>
+            <img src="Architecture.png" width="693" height="444">
+            <h2>Electronics</h2>
+            <p>
+              In this project, two input sensors were used to accomplish the basic function of the sitting posture corrector, they are LSM6DSO and HC-SR04 respectively. Both of them are connected to the RP2040 microcontroller via I2C. A pinout description of RP2040 is shown below.
+            </p>
+            <img src="Adafruit_products_qtpy-rp2040-pins.png" width="661.5" height="363">
+            <h3>Qwiic 6DoF (LSM6DSO)</h3>
+            <p>
+              The LSM6DSO is an accelerometer and gyroscope sensor. In order to using the I2C mode, we plug a Qwiic cable between the RP2040 and the Qwiic 6DoF LSM6DSO. For this product, we only need the acceleration input of three different axis (roll, pitch, yaw). The measured data will send to RP2040 through the I2C. When the user’s upper body leans forward, the inclination can be calculated by the acceleration. The specific logic is shown here:  
+            </p>
+            <img src="Qwiic 6DoF-Logic.png" width="495" height="175">
+            <p>
+              Thus we can get the core code of angle calculation:  
+              <code>
+                angle_x = (math.atan(acc_x / (math.sqrt(acc_y * acc_y + acc_z * acc_z)))) * 180.0 / math.pi<br>
+                angle_y = (math.atan(acc_y / (math.sqrt(acc_x * acc_x + acc_z * acc_z)))) * 180.0 / math.pi<br>
+                angle_z = (math.atan(acc_z / (math.sqrt(acc_x * acc_x + acc_y * acc_y)))) * 180.0 / math.pi
+              </code>
+            </p>
+            <p>
+              We choose to use I2C to attach LSM6DSO to RP2040, so we connect LSM6DSO and RP2040 by Qwiic cable like below:  
+            </p>
+            <img src="Qwiic 6DoF.jpg">
+            <h3>HC-SR04</h3>
+            <p>
+              HC-SR04 is an Ultrasonic Sonar Distance Sensors that can report the range of objects up to 13 feet away. An HC-SR04 ultrasonic distance sensor actually consists of two ultrasonic transducers. One operates as a transmitter that converts the electrical signal into 40 KHz ultrasonic sound pulses, the other operates as a receiver and listens for the transmitted pulses. When the receiver receives these pulses, it produces an output pulse whose width is proportional to the distance of the object in front. Here is the graph of the HC-SR04 wired up to the microcontroller.  
+            </p>
+            <img src="HCSR04CONNECT.jpg">
+            <h2>Result</h2>
+            <p>
+              <b><i>Final-Demo:</i></b>  <a href="https://www.youtube.com/watch?v=-6hfpppa8-0">Final Demo Video on Youtube</a>
+            </p>
+            <p>
+              In the end, we accomplished all the core goals of this project. We used the accelerometer to measure the acceleration of the user’s upper back on the three different axes. Then, we used these input values to calculate the titled angles of the user’s upper back on the three axes. We also used the ultrasonic distance sensor to measure the distance between the user and the computer in front. Combining them, we can judge whether the user’s sitting posture is correct. To enhance user interaction, we use the LCD screen to display reasonable results confronting different sitting postures. If the user is too close to the computer screen, <b><i>the LCD screen will display “You are too close to the screen!”</i></b>. If the user has the hunchback posture, <b><i>the LCD screen will display “Please correct your sitting posture!”</i></b>. And if the above two situations occur at the same time, <b><i>the LCD screen will display “Away from the screen, Sit up straight”</i></b>. We placed all the devices on one posture correction vest. This wearable device can be convenient for the user to check their sitting posture while working. 
+            </p>
+            <p>
+              Furthermore, we have accomplished several of our reach goals. We programmed the RP2040 so that <b><i>the users' mouse cursor starts shaking</i></b> when their sitting posture is bad. Because when the users concentrate on work, it is possible to ignore the reminder on the LCD screen. In addition, we designed a <b><i>"joystick"</i></b> mode which allows users to control the up, down, left, and right keys of the keyboard by using the vest. Therefore, we can use physical activity instead of a keyboard to play some games. It allows users to exercise to relieve the damage to the waist caused by being sedentary.
+            </p>
+            <h2>Reflection and future work</h2>
+            <p>
+              After six weeks of hard work, we finally completed the sitting posture corrector. This product has fulfilled all the core requirements we set before. Although our group encountered some special situations caused that we don’t have many chances to communicate face to face, we didn’t give up. Starting from the initial idea, we made a relatively complete product step by step. During this process, we generated some new ideas sometimes and judged them from the user’s perspective. From the code writing to the user interaction enhancement, we tried our best efforts to make this project become a usable product that has some potential. Although we came up with some good ideas, we didn’t have enough time to turn them into reality. It was a bit unfortunate, but it was still an enriching experience. 
+            </p>
+            <p>
+              One of the most significant lessons we have been learning is that interaction with the user is important. We originally wanted to use the LED light on the RP2040to warn the user, however, we found that if we wear it on the body, this method cannot effectively attract the user’s attention. So, we used the LCD screen to remind the user when their sitting posture is not standard. But it is still not direct enough, sometimes users will ignore the LCD screen because they are concentrating on their work. Thus, there is a more direct way to interact with the user, such as attaching a small vibrator to the posture-correct vest. And since we used two sensors in this project, we chose to connect RP2040 to the computer via USB to provide electrical power to the sensor. But the wires will make our products look messy and unsightly. So, it would be better to add a battery and hide the wire if possible. Moreover, it is a great idea to add the powerful ESP32 WiFi co-processor to our product, which allows our product to connect to a WiFi network and transfer data from a site. With no time limitation, we want to use more accelerometer and gyroscope sensors to detect more data of user’s arms and legs to achieve pose recognition. This allows us to apply this project to the monitoring of human activity, like an advanced version of smart watch, which may play a great role in health monitoring of people especially the elderly. 
+            </p>
+            <h1>Code Repository</h1>
+            <p><a href="https://github.com/AngLi-00/ESE5190-Final-Project/tree/main/code">https://github.com/AngLi-00/ESE5190-Final-Project/tree/main/code</a></p>
+          </div>
+          
+          <div id="contact" class="content-region hide">
+            <h2>Contact</h2>
+            <p>
+              <a href="https://github.com/AngLi-00">Ang Li</a>   <br>
+              <a href="https://github.com/SEN316">Sen Luo</a>   <br>
+              <a href="https://github.com/IndigoQuadratic">Xuanang Chen</a>   <br>
+            </p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <footer>  
+      Footer region
+    </footer>
+    
+    <!-- Load additional JS scripts here -->
+    <script type="text/javascript" src="script.js"></script>
+    
+  </body>
+</html>
